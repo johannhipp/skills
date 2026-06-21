@@ -1,6 +1,6 @@
 # Skills
 
-[![skills.sh](https://skills.sh/b/johannhipp/skill)](https://skills.sh/johannhipp/skills)
+[![skills.sh](https://skills.sh/b/johannhipp/skills)](https://skills.sh/johannhipp/skills)
 
 My agent skills for building and reviewing software projects.
 
@@ -11,7 +11,7 @@ These skills are meant to encode practical engineering judgment that agents can 
 1. Run the skills.sh installer:
 
 ```bash
-npx skills@latest add johannhipp/skill
+npx skills@latest add johannhipp/skills
 ```
 
 2. Pick the skills you want, and which coding agents you want to install them on.
