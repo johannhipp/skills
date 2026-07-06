@@ -1,0 +1,56 @@
+# Pagination
+
+A pagination with page navigation, next and previous links.
+
+## Status
+
+- Status: Stable
+- Foundation: bits
+- Category: Layout & Navigation
+- Particles in source inventory: 3
+- COSS reference docs: https://coss.com/ui/docs/components/pagination.md
+
+## Imports
+
+```ts
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationNextButton, PaginationPage, PaginationPrevious, PaginationPrevButton } from "coss-svelte";
+```
+
+## Minimal Svelte Pattern
+
+```svelte
+<script lang="ts">
+	import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext } from "coss-svelte";
+</script>
+
+<Pagination>
+	<PaginationContent>Pagination</PaginationContent>
+</Pagination>
+```
+
+## Anatomy
+
+- `Pagination`
+- `PaginationContent`
+- `PaginationEllipsis`
+- `PaginationItem`
+- `PaginationLink`
+- `PaginationNext`
+- `PaginationNextButton`
+- `PaginationPage`
+- `PaginationPrevious`
+- `PaginationPrevButton`
+
+## Composition Rules
+
+- Use the exported coss-svelte parts listed above.
+- Preserve Svelte syntax and accessibility semantics.
+- Prefer documented local examples before adapting upstream COSS React snippets.
+- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+
+## Common Pitfalls
+
+- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
+- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
+- Ignoring the component status when using experimental or deferred primitives.
+- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
