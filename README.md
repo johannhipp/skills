@@ -26,4 +26,5 @@ This repo collects reusable guidance for choices that compound over time: API co
 
 ## Reference
 
+- **[coss-svelte](./skills/coss-svelte/SKILL.md)** - Implement coss-svelte UI components correctly in Svelte and SvelteKit projects.
 - **[early-frontend-architecture](./skills/early-frontend-architecture/SKILL.md)** - Set day-one frontend architecture decisions for young web apps before the codebase becomes large.
