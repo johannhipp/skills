@@ -2,46 +2,42 @@
 
 A specialized input for numeric values with increment/decrement controls.
 
-## Status
+> Deferred: this is not an importable component in the current package.
 
-- Status: Deferred
+## Status and source
+
+- Status: deferred
 - Foundation: custom
 - Category: Selection & Input
-- Particles in source inventory: 11
-- COSS reference docs: https://coss.com/ui/docs/components/number-field.md
+- Local docs route: `/docs/components/number-field.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/number-field.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/number-field.md>
 
-This component is deferred in coss-svelte. Do not implement it as available production API unless the local package has changed.
-
-## Imports
+## Public imports
 
 ```ts
-import { NumberField } from "coss-svelte";
+// No public import exists in the current package.
 ```
 
-## Minimal Svelte Pattern
+## Current implementation
 
-```svelte
-<script lang="ts">
-	import { NumberField } from "coss-svelte";
-</script>
+Do not import or generate this component as available. Use the fallback described below and re-check package exports before changing that guidance.
 
-<NumberField>Number Field</NumberField>
-```
+## Key contracts
+
+- Deferred: `NumberField` is metadata only and is not exported. Use Input with `type="number"` or a project-local control until the status changes.
 
 ## Anatomy
 
-- `NumberField`
+- No exported anatomy while deferred.
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- This primitive is either single-export or native-presentational in the current surface.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#number-field) for 11 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

@@ -2,44 +2,50 @@
 
 Renders an accessible label associated with controls.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: bits
 - Category: Forms & Validation
-- Particles in source inventory: 0
-- COSS reference docs: https://coss.com/ui/docs/components/label.md
+- Local docs route: `/docs/components/label.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/label.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/label.md>
 
-## Imports
+## Public imports
 
 ```ts
 import { Label } from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Label } from "coss-svelte";
+	import { Input, Label } from "coss-svelte";
 </script>
 
-<Label>Label</Label>
+<Label class="grid gap-2">
+	<span>Email</span>
+	<Input name="email" placeholder="jane@example.com" type="email" />
+</Label>
 ```
+
+## Key contracts
+
+- The current generic Label declaration does not expose a `for` prop. Nest the control for native implicit association, or use Field/FieldLabel for composed forms.
+- Re-check the installed declaration before switching to an explicit `for`/`id` pair; do not suppress the type error.
 
 ## Anatomy
 
 - `Label`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- This primitive is either single-export or native-presentational in the current surface.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- No upstream COSS particle inventory is recorded for this component.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

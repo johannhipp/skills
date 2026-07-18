@@ -2,39 +2,57 @@
 
 A common form component for choosing a predefined value in a dropdown menu.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: bits
 - Category: Selection & Input
-- Particles in source inventory: 23
-- COSS reference docs: https://coss.com/ui/docs/components/select.md
+- Local docs route: `/docs/components/select.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/select.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/select.md>
 
-## Imports
+## Avoid when
+
+- Do not use when the user needs search; use Combobox.
+
+## Public imports
 
 ```ts
-import { Select, SelectGroup, SelectGroupLabel, SelectItem, SelectPopup, SelectScrollDownButton, SelectScrollUpButton, SelectTrigger, SelectValue, SelectViewport } from "coss-svelte";
+import {
+	Select,
+	SelectGroup,
+	SelectGroupLabel,
+	SelectItem,
+	SelectPopup,
+	SelectScrollDownButton,
+	SelectScrollUpButton,
+	SelectTrigger,
+	SelectValue,
+	SelectViewport,
+} from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue, SelectViewport } from "coss-svelte";
+	import { Select } from "coss-svelte";
+
+	const options = [
+		{ label: "Viewer", value: "viewer" },
+		{ label: "Editor", value: "editor" },
+	];
+	let role = $state("");
 </script>
 
-<Select value="editor">
-	<SelectTrigger>
-		<SelectValue placeholder="Select role" />
-	</SelectTrigger>
-	<SelectPopup>
-		<SelectViewport>
-			<SelectItem value="viewer">Viewer</SelectItem>
-			<SelectItem value="editor">Editor</SelectItem>
-		</SelectViewport>
-	</SelectPopup>
-</Select>
+<Select bind:value={role} name="role" {options} placeholder="Choose a role" />
 ```
+
+## Key contracts
+
+- Use for predefined selection without search. Pass `options`; custom trigger/value/popup/viewport/items still rely on that item collection.
+- Use a string value for single mode and a string array for multiple mode; `bind:value`, `bind:open`, and `onValueChange` are supported.
+- Bindable contract: `bind:value`, `bind:open`; optional `onValueChange`.
 
 ## Anatomy
 
@@ -49,16 +67,13 @@ import { Select, SelectGroup, SelectGroupLabel, SelectItem, SelectPopup, SelectS
 - `SelectValue`
 - `SelectViewport`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#select) for 23 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

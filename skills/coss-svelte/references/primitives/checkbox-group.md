@@ -1,45 +1,50 @@
 # Checkbox Group
 
-A collection of related checkboxes with group-level control.
+A layout and semantics wrapper for related checkboxes; each Checkbox owns its state.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: custom
 - Category: Toggle & Choice
-- Particles in source inventory: 5
-- COSS reference docs: https://coss.com/ui/docs/components/checkbox-group.md
+- Local docs route: `/docs/components/checkbox-group.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/checkbox-group.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/checkbox-group.md>
 
-## Imports
+## Public imports
 
 ```ts
 import { CheckboxGroup } from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { CheckboxGroup } from "coss-svelte";
+	import { Checkbox, CheckboxGroup } from "coss-svelte";
 </script>
 
-<CheckboxGroup>Checkbox Group</CheckboxGroup>
+<CheckboxGroup label="Notifications">
+	<Checkbox label="Product updates" />
+	<Checkbox label="Security alerts" checked />
+</CheckboxGroup>
 ```
+
+## Key contracts
+
+- CheckboxGroup provides grouping/layout only; each Checkbox still owns its checked state. Give the group and every control an accessible name.
 
 ## Anatomy
 
 - `CheckboxGroup`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- This primitive is either single-export or native-presentational in the current surface.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#checkbox-group) for 5 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

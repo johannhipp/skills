@@ -2,31 +2,47 @@
 
 A container for displaying empty state information.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: native
 - Category: Content & Display
-- Particles in source inventory: 1
-- COSS reference docs: https://coss.com/ui/docs/components/empty.md
+- Local docs route: `/docs/components/empty.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/empty.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/empty.md>
 
-## Imports
+## Public imports
 
 ```ts
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "coss-svelte";
+import {
+	Empty,
+	EmptyContent,
+	EmptyDescription,
+	EmptyHeader,
+	EmptyMedia,
+	EmptyTitle,
+} from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "coss-svelte";
+	import { Button, Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "coss-svelte";
 </script>
 
 <Empty>
-	<EmptyContent>Empty</EmptyContent>
+	<EmptyHeader>
+		<EmptyTitle>No projects yet</EmptyTitle>
+		<EmptyDescription>Create a project to get started.</EmptyDescription>
+	</EmptyHeader>
+	<EmptyContent><Button type="button">Create project</Button></EmptyContent>
 </Empty>
 ```
+
+## Key contracts
+
+- Use header/title/description for the explanation and content for recovery actions; do not show an empty state while data is merely loading.
 
 ## Anatomy
 
@@ -37,16 +53,13 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 - `EmptyMedia`
 - `EmptyTitle`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#empty) for 1 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

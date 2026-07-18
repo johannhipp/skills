@@ -2,47 +2,59 @@
 
 A group of related form fields with a common label.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: native
 - Category: Forms & Validation
-- Particles in source inventory: 1
-- COSS reference docs: https://coss.com/ui/docs/components/fieldset.md
+- Local docs route: `/docs/components/fieldset.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/fieldset.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/fieldset.md>
 
-## Imports
+## Public imports
 
 ```ts
 import { Fieldset, FieldsetLegend } from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Fieldset, FieldsetLegend } from "coss-svelte";
+	import { Field, FieldDescription, FieldLabel, Fieldset, FieldsetLegend, Input } from "coss-svelte";
 </script>
 
-<Fieldset>
-	<FieldsetLegend>Fieldset</FieldsetLegend>
+<Fieldset class="w-full max-w-64">
+	<FieldsetLegend>Billing Details</FieldsetLegend>
+	<Field>
+		<FieldLabel>Company</FieldLabel>
+		<Input placeholder="Enter company name" type="text" />
+		<FieldDescription>The name that will appear on invoices.</FieldDescription>
+	</Field>
+	<Field>
+		<FieldLabel>Tax ID</FieldLabel>
+		<Input placeholder="Enter tax identification number" type="text" />
+		<FieldDescription>Your business tax identification number.</FieldDescription>
+	</Field>
 </Fieldset>
 ```
+
+## Key contracts
+
+- Use native fieldset/legend semantics for related controls. Use the `legend` convenience prop or FieldsetLegend, not duplicate legends.
 
 ## Anatomy
 
 - `Fieldset`
 - `FieldsetLegend`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#fieldset) for 1 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

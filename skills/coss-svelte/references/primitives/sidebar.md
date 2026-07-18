@@ -1,34 +1,81 @@
 # Sidebar
 
-A collapsible side panel for navigation and secondary content.
+An experimental collapsible navigation shell with provider-backed open state.
 
-## Status
+> Experimental: verify the installed source before relying on production parity.
 
-- Status: Experimental
+## Contents
+
+- Status and source
+- Public imports and canonical pattern
+- Key contracts and anatomy
+- Pitfalls and pattern sources
+
+## Status and source
+
+- Status: experimental
 - Foundation: compound
 - Category: Layout & Navigation
-- Particles in source inventory: 0
-- COSS reference docs: https://coss.com/ui/docs/components/sidebar.md
+- Local docs route: `/docs/components/sidebar.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/sidebar.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/sidebar.md>
 
-This component is experimental in coss-svelte. Mention the status and avoid promising full upstream parity.
-
-## Imports
+## Public imports
 
 ```ts
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger } from "coss-svelte";
+import {
+	Sidebar,
+	SidebarContent,
+	SidebarFooter,
+	SidebarGroup,
+	SidebarGroupAction,
+	SidebarGroupContent,
+	SidebarGroupLabel,
+	SidebarHeader,
+	SidebarInput,
+	SidebarInset,
+	SidebarMenu,
+	SidebarMenuAction,
+	SidebarMenuBadge,
+	SidebarMenuButton,
+	SidebarMenuItem,
+	SidebarMenuSkeleton,
+	SidebarMenuSub,
+	SidebarMenuSubButton,
+	SidebarMenuSubItem,
+	SidebarProvider,
+	SidebarRail,
+	SidebarSeparator,
+	SidebarTrigger,
+} from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent } from "coss-svelte";
+	import { Sidebar, SidebarInset, SidebarProvider, SidebarTrigger } from "coss-svelte";
+
+	const items = [
+		{ label: "Overview", href: "/overview" },
+		{ label: "Settings", href: "/settings" },
+	];
 </script>
 
-<Sidebar>
-	<SidebarContent>Sidebar</SidebarContent>
-</Sidebar>
+<SidebarProvider>
+	<Sidebar {items} label="Workspace" />
+	<SidebarInset>
+		<header><SidebarTrigger /> Dashboard</header>
+		<main>Workspace content</main>
+	</SidebarInset>
+</SidebarProvider>
 ```
+
+## Key contracts
+
+- Experimental: wrap interactive/collapsible layouts in SidebarProvider so SidebarTrigger can toggle shared state.
+- The `items` convenience path is a simple link list; use exported menu/group parts for a production navigation shell.
+- Bindable contract: `bind:open` on SidebarProvider.
 
 ## Anatomy
 
@@ -56,16 +103,13 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupActio
 - `SidebarSeparator`
 - `SidebarTrigger`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- No upstream COSS particle inventory is recorded for this component.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

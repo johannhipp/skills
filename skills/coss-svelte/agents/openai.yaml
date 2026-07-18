@@ -1,0 +1,4 @@
+interface:
+  display_name: "coss-svelte"
+  short_description: "Build correct COSS-style Svelte interfaces"
+  default_prompt: "Use $coss-svelte to implement this interface with current exports, Svelte-native composition, and accessible component contracts."

@@ -2,25 +2,43 @@
 
 A modal overlay for displaying content that requires user interaction.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: bits
 - Category: Overlays & Popups
-- Particles in source inventory: 6
-- COSS reference docs: https://coss.com/ui/docs/components/dialog.md
+- Local docs route: `/docs/components/dialog.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/dialog.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/dialog.md>
 
-## Imports
+## Avoid when
+
+- Do not use for a lightweight anchored editor; use Popover. Use AlertDialog for irreversible confirmation.
+
+## Public imports
 
 ```ts
-import { Dialog, DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogPanel, DialogPopup, DialogTitle, DialogTrigger } from "coss-svelte";
+import {
+	Dialog,
+	DialogClose,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogPanel,
+	DialogPopup,
+	DialogTitle,
+	DialogTrigger,
+} from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Button, Dialog, DialogClose, DialogDescription, DialogFooter, DialogHeader, DialogPopup, DialogTitle, DialogTrigger } from "coss-svelte";
+	import {
+		Button, Dialog, DialogClose, DialogDescription, DialogFooter, DialogHeader,
+		DialogPanel, DialogPopup, DialogTitle, DialogTrigger, Field, Form, Input,
+	} from "coss-svelte";
 </script>
 
 <Dialog>
@@ -28,15 +46,27 @@ import { Dialog, DialogClose, DialogDescription, DialogFooter, DialogHeader, Dia
 	<DialogPopup>
 		<DialogHeader>
 			<DialogTitle>Edit profile</DialogTitle>
-			<DialogDescription>Update workspace details.</DialogDescription>
+			<DialogDescription>Update the public name for this account.</DialogDescription>
 		</DialogHeader>
-		<DialogFooter>
-			<DialogClose>Cancel</DialogClose>
-			<Button type="submit">Save</Button>
-		</DialogFooter>
+		<Form class="contents" onsubmit={(event) => event.preventDefault()}>
+			<DialogPanel>
+				<Field label="Name" required><Input name="name" type="text" /></Field>
+			</DialogPanel>
+			<DialogFooter>
+				<DialogClose>Cancel</DialogClose>
+				<Button type="submit">Save</Button>
+			</DialogFooter>
+		</Form>
 	</DialogPopup>
 </Dialog>
 ```
+
+## Key contracts
+
+- Keep title and description in the popup for accessible modal naming; use `DialogPanel` for body content.
+- When composing parts, omit root `title`/`description`; those props activate a separate convenience scaffold.
+- For forms, place `Form class="contents"` around panel and footer so the submit button remains inside the form.
+- Bindable contract: `bind:open`.
 
 ## Anatomy
 
@@ -50,16 +80,13 @@ import { Dialog, DialogClose, DialogDescription, DialogFooter, DialogHeader, Dia
 - `DialogTitle`
 - `DialogTrigger`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#dialog) for 6 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

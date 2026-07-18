@@ -1,34 +1,77 @@
 # Drawer
 
-A panel that slides in from the edge of the screen with swipe gestures, snap points, and nested drawer support.
+An experimental Dialog-backed drawer surface without swipe, snap-point, or nested-drawer parity.
 
-## Status
+> Experimental: verify the installed source before relying on production parity.
 
-- Status: Experimental
+## Status and source
+
+- Status: experimental
 - Foundation: custom
 - Category: Overlays & Popups
-- Particles in source inventory: 14
-- COSS reference docs: https://coss.com/ui/docs/components/drawer.md
+- Local docs route: `/docs/components/drawer.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/drawer.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/drawer.md>
 
-This component is experimental in coss-svelte. Mention the status and avoid promising full upstream parity.
+## Avoid when
 
-## Imports
+- Do not promise gesture-driven mobile behavior until the experimental implementation provides it.
+
+## Public imports
 
 ```ts
-import { Drawer, DrawerClose, DrawerContent, DrawerCreateHandle, DrawerDescription, DrawerFooter, DrawerHeader, DrawerPanel, DrawerPopup, DrawerTitle, DrawerTrigger } from "coss-svelte";
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerCreateHandle,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerPanel,
+	DrawerPopup,
+	DrawerTitle,
+	DrawerTrigger,
+} from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Drawer, DrawerClose, DrawerContent, DrawerCreateHandle, DrawerDescription, DrawerFooter } from "coss-svelte";
+	import {
+		Drawer,
+		DrawerClose,
+		DrawerCreateHandle,
+		DrawerDescription,
+		DrawerFooter,
+		DrawerHeader,
+		DrawerPopup,
+		DrawerTitle,
+		DrawerTrigger,
+	} from "coss-svelte";
 </script>
 
 <Drawer>
-	<DrawerClose>Drawer</DrawerClose>
+	<DrawerTrigger>Open drawer</DrawerTrigger>
+	<DrawerPopup>
+		<DrawerCreateHandle />
+		<DrawerHeader class="text-center">
+			<DrawerTitle>Notifications</DrawerTitle>
+			<DrawerDescription>This is the description of the drawer.</DrawerDescription>
+		</DrawerHeader>
+		<DrawerFooter>
+			<DrawerClose>Close</DrawerClose>
+		</DrawerFooter>
+	</DrawerPopup>
 </Drawer>
 ```
+
+## Key contracts
+
+- Experimental: the current implementation is Dialog-based and does not promise swipe gestures, snap points, or upstream COSS drawer parity.
+- Use the exported trigger/popup/header/panel/footer/close anatomy and bind `open` when state is controlled.
+- Bindable contract: `bind:open`.
 
 ## Anatomy
 
@@ -44,16 +87,13 @@ import { Drawer, DrawerClose, DrawerContent, DrawerCreateHandle, DrawerDescripti
 - `DrawerTitle`
 - `DrawerTrigger`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#drawer) for 14 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

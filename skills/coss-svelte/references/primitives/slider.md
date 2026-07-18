@@ -2,31 +2,45 @@
 
 A draggable control for selecting values from a continuous range.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: bits
 - Category: Selection & Input
-- Particles in source inventory: 23
-- COSS reference docs: https://coss.com/ui/docs/components/slider.md
+- Local docs route: `/docs/components/slider.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/slider.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/slider.md>
 
-## Imports
+## Public imports
 
 ```ts
-import { Slider, SliderRange, SliderThumb, SliderThumbLabel, SliderTick, SliderTickLabel } from "coss-svelte";
+import {
+	Slider,
+	SliderRange,
+	SliderThumb,
+	SliderThumbLabel,
+	SliderTick,
+	SliderTickLabel,
+} from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Slider, SliderRange, SliderThumb, SliderThumbLabel, SliderTick, SliderTickLabel } from "coss-svelte";
+	import { Slider } from "coss-svelte";
+
+	let volume = $state(40);
 </script>
 
-<Slider>
-	<SliderRange>Slider</SliderRange>
-</Slider>
+<Slider aria-label="Volume" bind:value={volume} min={0} max={100} />
 ```
+
+## Key contracts
+
+- Always provide an accessible label. Single mode uses a number; multiple/range mode uses a number array.
+- The root renders range/ticks/thumbs automatically; custom children receive `thumbItems` and `tickItems` and must render indexed parts.
+- Bindable contract: `bind:value`; optional `onValueChange`.
 
 ## Anatomy
 
@@ -37,16 +51,13 @@ import { Slider, SliderRange, SliderThumb, SliderThumbLabel, SliderTick, SliderT
 - `SliderTick`
 - `SliderTickLabel`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#slider) for 23 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

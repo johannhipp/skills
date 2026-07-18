@@ -2,31 +2,44 @@
 
 A flexible component for grouping inputs with addons, buttons, and other elements.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: compound
 - Category: Selection & Input
-- Particles in source inventory: 28
-- COSS reference docs: https://coss.com/ui/docs/components/input-group.md
+- Local docs route: `/docs/components/input-group.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/input-group.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/input-group.md>
 
-## Imports
+## Public imports
 
 ```ts
-import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, InputGroupTextarea } from "coss-svelte";
+import {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupInput,
+	InputGroupText,
+	InputGroupTextarea,
+} from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, InputGroupTextarea } from "coss-svelte";
+	import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "coss-svelte";
 </script>
 
 <InputGroup>
-	<InputGroupAddon>Input Group</InputGroupAddon>
+	<InputGroupInput aria-label="Domain" placeholder="example.com" type="text" />
+	<InputGroupAddon align="inline-start"><InputGroupText>https://</InputGroupText></InputGroupAddon>
 </InputGroup>
 ```
+
+## Key contracts
+
+- Use InputGroupInput/InputGroupTextarea rather than standalone Input/Textarea.
+- Keep addons after the control in DOM order; use `align` to position them visually.
 
 ## Anatomy
 
@@ -36,16 +49,13 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, InputGrou
 - `InputGroupText`
 - `InputGroupTextarea`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#input-group) for 28 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.
