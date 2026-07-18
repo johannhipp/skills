@@ -2,31 +2,74 @@
 
 A list of actions or options revealed on demand.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: compound
 - Category: Overlays & Popups
-- Particles in source inventory: 9
-- COSS reference docs: https://coss.com/ui/docs/components/menu.md
+- Local docs route: `/docs/components/menu.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/menu.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/menu.md>
 
-## Imports
+## Avoid when
+
+- Do not use for arbitrary form content; use Popover or Dialog.
+
+## Public imports
 
 ```ts
-import { Menu, MenuCheckboxItem, MenuGroup, MenuGroupLabel, MenuItem, MenuPopup, MenuRadioGroup, MenuRadioItem, MenuSeparator, MenuShortcut, MenuSub, MenuSubPopup, MenuSubTrigger, MenuTrigger } from "coss-svelte";
+import {
+	Menu,
+	MenuCheckboxItem,
+	MenuGroup,
+	MenuGroupLabel,
+	MenuItem,
+	MenuPopup,
+	MenuRadioGroup,
+	MenuRadioItem,
+	MenuSeparator,
+	MenuShortcut,
+	MenuSub,
+	MenuSubPopup,
+	MenuSubTrigger,
+	MenuTrigger,
+} from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Menu, MenuCheckboxItem, MenuGroup, MenuGroupLabel, MenuItem, MenuPopup } from "coss-svelte";
+	import {
+		Menu, MenuGroup, MenuGroupLabel, MenuItem, MenuPopup, MenuSeparator,
+		MenuSub, MenuSubPopup, MenuSubTrigger, MenuTrigger,
+	} from "coss-svelte";
 </script>
 
 <Menu>
-	<MenuCheckboxItem>Menu</MenuCheckboxItem>
+	<MenuTrigger>Actions</MenuTrigger>
+	<MenuPopup>
+		<MenuGroup>
+			<MenuGroupLabel>Project</MenuGroupLabel>
+			<MenuItem>Edit</MenuItem>
+			<MenuItem>Duplicate</MenuItem>
+		</MenuGroup>
+		<MenuSeparator />
+		<MenuSub>
+			<MenuSubTrigger>Move to</MenuSubTrigger>
+			<MenuSubPopup><MenuItem>Archive</MenuItem></MenuSubPopup>
+		</MenuSub>
+		<MenuSeparator />
+		<MenuItem variant="destructive">Delete</MenuItem>
+	</MenuPopup>
 </Menu>
 ```
+
+## Key contracts
+
+- Use `items` only for simple flat menus; custom menus require MenuTrigger + MenuPopup.
+- Pair MenuSubTrigger with MenuSubPopup inside MenuSub, and use checkbox/radio parts for persistent choices.
+- Bindable contract: `bind:open`.
 
 ## Anatomy
 
@@ -45,16 +88,13 @@ import { Menu, MenuCheckboxItem, MenuGroup, MenuGroupLabel, MenuItem, MenuPopup,
 - `MenuSubTrigger`
 - `MenuTrigger`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#menu) for 9 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

@@ -2,31 +2,51 @@
 
 A structured data display component with rows and columns.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: native
 - Category: Content & Display
-- Particles in source inventory: 8
-- COSS reference docs: https://coss.com/ui/docs/components/table.md
+- Local docs route: `/docs/components/table.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/table.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/table.md>
 
-## Imports
+## Public imports
 
 ```ts
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "coss-svelte";
+import {
+	Table,
+	TableBody,
+	TableCaption,
+	TableCell,
+	TableFooter,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead } from "coss-svelte";
+	import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "coss-svelte";
 </script>
 
 <Table>
-	<TableBody>Table</TableBody>
+	<TableHeader>
+		<TableRow><TableHead>Project</TableHead><TableHead>Status</TableHead></TableRow>
+	</TableHeader>
+	<TableBody>
+		<TableRow><TableCell>Website</TableCell><TableCell>Active</TableCell></TableRow>
+		<TableRow><TableCell>Mobile app</TableCell><TableCell>Paused</TableCell></TableRow>
+	</TableBody>
 </Table>
 ```
+
+## Key contracts
+
+- Preserve native table/header/body/row/head/cell hierarchy. Use TableHead scope correctly and do not replace tabular data with generic grid divs.
 
 ## Anatomy
 
@@ -39,16 +59,13 @@ import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, Tabl
 - `TableHeader`
 - `TableRow`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#table) for 8 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

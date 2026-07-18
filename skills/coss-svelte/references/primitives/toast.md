@@ -1,47 +1,58 @@
 # Toast
 
-A temporary notification message that appears and disappears automatically.
+An experimental local notification surface with bindable visibility, not a queue or manager API.
 
-## Status
+> Experimental: verify the installed source before relying on production parity.
 
-- Status: Experimental
+## Status and source
+
+- Status: experimental
 - Foundation: custom
 - Category: Feedback & Status
-- Particles in source inventory: 13
-- COSS reference docs: https://coss.com/ui/docs/components/toast.md
+- Local docs route: `/docs/components/toast.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/toast.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/toast.md>
 
-This component is experimental in coss-svelte. Mention the status and avoid promising full upstream parity.
+## Avoid when
 
-## Imports
+- Do not use when the message must persist or interrupt the workflow.
+
+## Public imports
 
 ```ts
 import { Toast } from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Toast } from "coss-svelte";
+	import { Button, Toast } from "coss-svelte";
+
+	let open = $state(false);
 </script>
 
-<Toast>Toast</Toast>
+<Button type="button" variant="outline" onclick={() => (open = true)}>Show toast</Button>
+<Toast bind:open title="Saved" description="Your changes are up to date." />
 ```
+
+## Key contracts
+
+- Experimental: this is a local bindable status surface, not COSS React `toastManager`, Sonner, or a provider/queue system.
+- Bind `open` for visibility and use Alert for persistent feedback or AlertDialog for blocking confirmation.
+- Bindable contract: `bind:open`.
 
 ## Anatomy
 
 - `Toast`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- This primitive is either single-export or native-presentational in the current surface.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#toast) for 13 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

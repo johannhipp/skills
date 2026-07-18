@@ -2,47 +2,51 @@
 
 A group of toggle buttons where one or multiple can be selected.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: bits
 - Category: Toggle & Choice
-- Particles in source inventory: 9
-- COSS reference docs: https://coss.com/ui/docs/components/toggle-group.md
+- Local docs route: `/docs/components/toggle-group.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/toggle-group.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/toggle-group.md>
 
-## Imports
+## Public imports
 
 ```ts
 import { ToggleGroup, ToggleGroupItem } from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { ToggleGroup, ToggleGroupItem } from "coss-svelte";
+	import { ToggleGroup } from "coss-svelte";
+
+	const items = ["Bold", "Italic", "Underline"];
+	let value = $state(["Bold"]);
 </script>
 
-<ToggleGroup>
-	<ToggleGroupItem>Toggle Group</ToggleGroupItem>
-</ToggleGroup>
+<ToggleGroup aria-label="Text style" bind:value {items} type="multiple" />
 ```
+
+## Key contracts
+
+- Single mode binds a string; multiple mode binds a string array. Use `items` for text controls or ToggleGroupItem for icon/custom controls with aria-labels.
+- Bindable contract: `bind:value`; optional `onValueChange`.
 
 ## Anatomy
 
 - `ToggleGroup`
 - `ToggleGroupItem`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#toggle-group) for 9 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

@@ -2,44 +2,47 @@
 
 A date picker for selecting single dates, ranges, or multiple dates.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: bits
 - Category: Selection & Input
-- Particles in source inventory: 24
-- COSS reference docs: https://coss.com/ui/docs/components/calendar.md
+- Local docs route: `/docs/components/calendar.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/calendar.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/calendar.md>
 
-## Imports
+## Public imports
 
 ```ts
 import { Calendar } from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
 	import { Calendar } from "coss-svelte";
 </script>
 
-<Calendar>Calendar</Calendar>
+<Calendar aria-label="Choose a date" />
 ```
+
+## Key contracts
+
+- Use `@internationalized/date` value objects when controlling dates; scalar and array value shapes follow `type`. Always provide an accessible label.
+- Bindable contract: `bind:value`; optional `onValueChange`.
 
 ## Anatomy
 
 - `Calendar`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- This primitive is either single-export or native-presentational in the current surface.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#calendar) for 24 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

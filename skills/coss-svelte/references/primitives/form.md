@@ -1,52 +1,56 @@
 # Form
 
-A complete form implementation with validation and submission handling.
+A styled native form wrapper; validation and submission behavior remain application-owned.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: native
 - Category: Forms & Validation
-- Particles in source inventory: 2
-- COSS reference docs: https://coss.com/ui/docs/components/form.md
+- Local docs route: `/docs/components/form.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/form.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/form.md>
 
-## Imports
+## Public imports
 
 ```ts
 import { Form } from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Button, Field, FieldError, FieldLabel, Form, Input } from "coss-svelte";
+	import { Button, Field, Form, Input } from "coss-svelte";
+
+	let email = $state("");
+	let submitted = $state(false);
+	let invalid = $derived(submitted && !email.includes("@"));
 </script>
 
-<Form>
-	<Field>
-		<FieldLabel>Email</FieldLabel>
-		<Input type="email" placeholder="team@example.com" />
-		<FieldError>Use a work email address.</FieldError>
+<Form onsubmit={(event) => { event.preventDefault(); submitted = true; }}>
+	<Field label="Email" error={invalid ? "Enter a valid email." : ""} {invalid} required>
+		<Input bind:value={email} name="email" type="email" />
 	</Field>
-	<Button type="submit">Submit</Button>
+	<Button type="submit">Continue</Button>
 </Form>
 ```
+
+## Key contracts
+
+- Form is a styled native `<form>` wrapper; it does not provide schema parsing or a validation library. Handle `onsubmit` and field errors explicitly.
 
 ## Anatomy
 
 - `Form`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- This primitive is either single-export or native-presentational in the current surface.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#form) for 2 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

@@ -2,44 +2,46 @@
 
 A component for displaying keyboard keys and shortcuts.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: native
 - Category: Content & Display
-- Particles in source inventory: 1
-- COSS reference docs: https://coss.com/ui/docs/components/kbd.md
+- Local docs route: `/docs/components/kbd.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/kbd.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/kbd.md>
 
-## Imports
+## Public imports
 
 ```ts
 import { Kbd } from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
 	import { Kbd } from "coss-svelte";
 </script>
 
-<Kbd>Kbd</Kbd>
+<Kbd>Cmd K</Kbd>
 ```
+
+## Key contracts
+
+- Use Kbd only to display keyboard input, never as the interactive control itself.
 
 ## Anatomy
 
 - `Kbd`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- This primitive is either single-export or native-presentational in the current surface.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#kbd) for 1 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

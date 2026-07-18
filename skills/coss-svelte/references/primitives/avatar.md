@@ -2,31 +2,36 @@
 
 A visual representation of a user or entity.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: bits
 - Category: Content & Display
-- Particles in source inventory: 14
-- COSS reference docs: https://coss.com/ui/docs/components/avatar.md
+- Local docs route: `/docs/components/avatar.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/avatar.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/avatar.md>
 
-## Imports
+## Public imports
 
 ```ts
 import { Avatar, AvatarFallback, AvatarImage } from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Avatar, AvatarFallback, AvatarImage } from "coss-svelte";
+	import { Avatar, AvatarFallback } from "coss-svelte";
 </script>
 
-<Avatar>
-	<AvatarFallback>Avatar</AvatarFallback>
+<Avatar aria-label="coss-svelte">
+	<AvatarFallback>coss</AvatarFallback>
 </Avatar>
 ```
+
+## Key contracts
+
+- Provide useful `alt` text for meaningful images and a short fallback; custom children replace the convenience image/fallback layout.
 
 ## Anatomy
 
@@ -34,16 +39,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "coss-svelte";
 - `AvatarFallback`
 - `AvatarImage`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#avatar) for 14 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

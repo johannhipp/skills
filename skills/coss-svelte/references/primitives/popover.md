@@ -2,31 +2,72 @@
 
 A floating container that appears near a trigger element.
 
-## Status
+## Status and source
 
-- Status: Stable
+- Status: stable
 - Foundation: bits
 - Category: Overlays & Popups
-- Particles in source inventory: 3
-- COSS reference docs: https://coss.com/ui/docs/components/popover.md
+- Local docs route: `/docs/components/popover.md` when the coss-svelte docs app is running
+- Registry artifact: `apps/registry/static/r/popover.json`
+- Upstream COSS design reference: <https://coss.com/ui/docs/components/popover.md>
 
-## Imports
+## Avoid when
+
+- Do not use for modal flows or destructive confirmation.
+
+## Public imports
 
 ```ts
-import { Popover, PopoverClose, PopoverDescription, PopoverPopup, PopoverTitle, PopoverTrigger } from "coss-svelte";
+import {
+	Popover,
+	PopoverClose,
+	PopoverDescription,
+	PopoverPopup,
+	PopoverTitle,
+	PopoverTrigger,
+} from "coss-svelte";
 ```
 
-## Minimal Svelte Pattern
+## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Popover, PopoverClose, PopoverDescription, PopoverPopup, PopoverTitle, PopoverTrigger } from "coss-svelte";
+	import {
+		Button,
+		Field,
+		Form,
+		Popover,
+		PopoverClose,
+		PopoverDescription,
+		PopoverPopup,
+		PopoverTitle,
+		PopoverTrigger,
+		Textarea,
+	} from "coss-svelte";
 </script>
 
 <Popover>
-	<PopoverClose>Popover</PopoverClose>
+	<PopoverTrigger>Open Popover</PopoverTrigger>
+	<PopoverPopup class="w-80">
+		<div class="mb-4">
+			<PopoverTitle class="text-base">Send us feedback</PopoverTitle>
+			<PopoverDescription>Let us know how we can improve.</PopoverDescription>
+		</div>
+		<Form class="flex w-full flex-col gap-4">
+			<Field>
+				<Textarea aria-label="Send feedback" id="feedback" placeholder="How can we improve?" />
+			</Field>
+			<Button type="submit">Send feedback</Button>
+		</Form>
+		<PopoverClose class="sr-only">Close</PopoverClose>
+	</PopoverPopup>
 </Popover>
 ```
+
+## Key contracts
+
+- Use for non-modal anchored content. Preserve trigger/popup and add title/description for richer content; use Tooltip for short hints.
+- Bindable contract: `bind:open`.
 
 ## Anatomy
 
@@ -37,16 +78,13 @@ import { Popover, PopoverClose, PopoverDescription, PopoverPopup, PopoverTitle, 
 - `PopoverTitle`
 - `PopoverTrigger`
 
-## Composition Rules
+## Common pitfalls
 
-- Use the exported coss-svelte parts listed above.
-- Preserve Svelte syntax and accessibility semantics.
-- Prefer documented local examples before adapting upstream COSS React snippets.
-- Keep child parts inside the root component unless the docs for this primitive state otherwise.
+- Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
+- Do not invent parts or bindings absent from the package declarations.
+- Do not treat the upstream particle count as installable Svelte particle manifests.
 
-## Common Pitfalls
+## Pattern sources
 
-- Importing React COSS, Radix, shadcn, or Base UI APIs instead of `coss-svelte`.
-- Copying JSX, hooks, `className`, `asChild`, or `render` patterns into Svelte.
-- Ignoring the component status when using experimental or deferred primitives.
-- Replacing accessible exported parts with anonymous divs that lose labels, roles, or focus behavior.
+- Search [the upstream pattern index](../particles.md#popover) for 3 COSS particle descriptions, then port intent rather than TSX.
+- Inspect the package declaration and component source when a prop or snippet contract is not shown here.

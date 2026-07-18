@@ -1,122 +1,86 @@
 ---
 name: coss-svelte
-description: Helps implement coss-svelte UI components correctly. Use when building Svelte or SvelteKit interfaces with coss-svelte primitives, composing Bits UI-backed overlays/forms/menus/selects/tabs/inputs, migrating COSS React, shadcn, or Radix assumptions to Svelte-native code, or checking coss-svelte imports, anatomy, styling, accessibility, and component status boundaries.
-compatibility: Requires Svelte 5, SvelteKit for the docs examples, Bits UI peer primitives, and Tailwind CSS 4 theme tokens from coss-svelte.
-license: MIT
-metadata:
-  author: johannhipp
+description: Implement and troubleshoot coss-svelte interfaces in Svelte 5 or SvelteKit. Use when selecting coss-svelte components, composing Bits UI-backed dialogs, menus, selects, comboboxes, forms, tabs, inputs, or feedback surfaces, adapting COSS React particles or shadcn/Radix code to Svelte, or verifying imports, bindings, status, registry artifacts, theme setup, accessibility, and install availability.
 ---
 
 # coss-svelte
 
-coss-svelte is a Svelte 5 copy-and-own component library inspired by COSS UI. It maps COSS's compact product UI language onto Svelte-native components, Bits UI behavior, and Tailwind CSS 4 tokens.
+Implement COSS-shaped product UI with Svelte 5 components, Bits UI behavior, and the coss-svelte visual contract. Port interaction and visual intent from COSS React; never port its implementation source.
 
-## What this skill is for
+## Establish the source contract
 
-Use this skill to:
+Resolve disagreements in this order:
 
-- pick the right coss-svelte primitive for a UI task
-- write correct Svelte usage code with documented imports and component parts
-- preserve Svelte/Bits UI composition instead of copying React/Base UI APIs
-- avoid shadcn, Radix, or COSS React migration mistakes
-- respect current component status: stable, experimental, and deferred
+1. `packages/coss-svelte/src/index.js` and generated `dist/index.d.ts` for public exports.
+2. Generated component declarations and `src/components/*.svelte` for props, bindings, snippets, and behavior.
+3. `packages/coss-svelte/src/metadata.js` for status, foundation, parts, and upstream particle counts.
+4. `apps/registry/static/r/*.json` for copy-and-own file closure and dependencies.
+5. The docs app and `/docs/components/<slug>.md` routes for discovery, not as a substitute for declarations.
 
-## Source of truth
+Use <https://github.com/johannhipp/coss-svelte> when the source repository is not local. Treat <https://coss.com/ui/> and its particles as React design references only.
 
-- coss-svelte docs map: `/llms.txt` in the coss-svelte docs app
-- component docs: `/docs/components/<slug>.md` in the coss-svelte docs app
-- package exports: `packages/coss-svelte/src/index.js`
-- component metadata: `packages/coss-svelte/src/metadata.js`
-- implementation rules: `coss-svelte/AGENTS.md` and `docs/implementation/*`
-- public repo: `https://github.com/johannhipp/coss-svelte`
+## Apply the component model
 
-## Out of scope
+- Prefer a root component's convenience props (`items`, `options`, `tabs`, `title`, `description`) for simple flows.
+- Compose exported child parts when custom structure, actions, or rich content is required.
+- Read the primitive guide before mixing the two modes. Children replace fallback markup for many roots; `Dialog`, `AlertDialog`, `Sheet`, and `Drawer` instead activate convenience scaffolds when root `title` or `description` is set.
+- Use Svelte 5 syntax: `class`, lowercase property events such as `onclick`/`onsubmit`, `$state`, snippets, and documented `bind:*` contracts.
+- Use callback props such as `onValueChange` only where declarations expose them.
 
-- Maintaining COSS React or Base UI source.
-- Publishing npm releases unless explicitly requested.
-- Inventing component APIs not exported by `coss-svelte`.
-- Creating a separate particles skill before coss-svelte has registry-backed Svelte particle manifests.
+## Critical rules
 
-## Principles for agent output
+- Import only names exported by `coss-svelte`. Never invent parity APIs.
+- Never use React/JSX, hooks, `className`, `onClick`, Base UI, Radix `asChild`, or COSS `render` composition in Svelte output.
+- Never import `NumberField` while metadata marks it deferred; it is not exported.
+- Mark Drawer, Sidebar, and Toast as experimental and describe their current limitations.
+- Do not describe the upstream count of 484 COSS particles as installable Svelte particles. Use [the pattern index](./references/particles.md) to discover intent, then port it.
+- Preserve labels, dialog titles/descriptions, roles, focus behavior, keyboard behavior, error semantics, and explicit button/input types.
+- Verify package availability before giving external install commands. The source baseline may be ahead of npm and the theme package may still be workspace-only.
 
-1. Use documented coss-svelte exports first.
-2. Keep code Svelte-native; do not translate React snippets mechanically.
-3. Preserve accessibility semantics, labels, control types, focus behavior, and form errors.
-4. Prefer compact product UI patterns that match COSS density without adding decorative marketing layout.
-5. Check experimental/deferred status before treating a component as production-stable.
-6. When adapting COSS React examples, port intent and visual contract, not React/Base UI implementation details.
+## Workflow
 
-## Critical usage rules
+1. Determine whether the task is inside the coss-svelte monorepo, in an existing consumer, or for a new external install.
+2. Read [the component registry](./references/component-registry.md) and select the smallest suitable stable surface.
+3. Read every selected primitive guide under `references/primitives/`.
+4. Read the relevant rule guide for composition, forms, styling, or migration.
+5. For production-like patterns, search [the upstream particle index](./references/particles.md), then translate it through current Svelte exports.
+6. Implement the minimal accessible Svelte pattern.
+7. Check imports, status, value shapes, bindings, and source availability before returning code.
 
-Always apply before returning coss-svelte code:
+## Reference routing
 
-- Import components from `coss-svelte`, not from COSS React, shadcn, Radix, or Base UI.
-- Do not use React-only patterns such as `asChild`, `render`, hooks, JSX props, `className`, or `onClick={...}` syntax in Svelte output.
-- Use Svelte event and binding syntax supported by the target project.
-- For overlays and trigger-based components, follow the primitive's documented root/trigger/popup/content hierarchy.
-- For forms, keep `Field`, `FieldLabel`, `FieldDescription`, `FieldError`, and inputs grouped semantically.
-- For manual install guidance, include `coss-svelte`, `bits-ui`, and the COSS theme import when relevant.
+- [CLI and availability](./references/cli.md) — skill install, package/registry availability, monorepo checks
+- [Component registry](./references/component-registry.md) — all 54 components grouped by purpose and status
+- [Composition](./references/rules/composition.md) — convenience vs composed roots, overlays, bindings, snippets, providers
+- [Forms](./references/rules/forms.md) — Field context, native Form behavior, validation, input bindings
+- [Styling](./references/rules/styling.md) — theme availability, tokens, variants, `cn-*`, Tailwind CSS 4
+- [Migration](./references/rules/migration.md) — React COSS/Base UI/shadcn/Radix/particle conversion
+- [Particle patterns](./references/particles.md) — 484 searchable upstream pattern descriptions with strict porting boundaries
 
-Rule references, read on demand:
+## Read these guides first for risky work
 
-- `./references/rules/styling.md` - Tailwind 4 tokens, theme CSS, icons, density, and visual constraints
-- `./references/rules/composition.md` - Svelte component composition, overlays, triggers, grouped controls
-- `./references/rules/forms.md` - field, form, input, validation, and error display patterns
-- `./references/rules/migration.md` - React COSS, shadcn, Radix, and Base UI assumptions to remove
+- [Dialog](./references/primitives/dialog.md), [Alert Dialog](./references/primitives/alert-dialog.md), [Sheet](./references/primitives/sheet.md), and [Drawer](./references/primitives/drawer.md) for modal structure and form placement
+- [Menu](./references/primitives/menu.md), [Select](./references/primitives/select.md), [Combobox](./references/primitives/combobox.md), and [Autocomplete](./references/primitives/autocomplete.md) for collection and popup contracts
+- [Field](./references/primitives/field.md), [Form](./references/primitives/form.md), and [Input Group](./references/primitives/input-group.md) for accessible form wiring
+- [Command](./references/primitives/command.md) for command-dialog anatomy
+- [Sidebar](./references/primitives/sidebar.md) and [Toast](./references/primitives/toast.md) for experimental boundaries
 
-## Component discovery
+## Installation
 
-All scoped components have reference guides at `./references/primitives/<slug>.md`. Start with the registry index:
-
-- `./references/component-registry.md`
-
-## Usage workflow
-
-1. Identify the UI intent: action, form, overlay, selection, feedback, navigation, layout, or display.
-2. Read `references/component-registry.md` to choose candidate primitives.
-3. Read the primitive reference for each selected component.
-4. Read rule references when the task touches forms, overlays, styling, or migration.
-5. Generate Svelte code using documented coss-svelte imports and anatomy.
-6. Self-check component status, accessibility, and Svelte syntax before returning.
-
-## Installation reference
-
-For app usage:
+Install this agent skill with:
 
 ```bash
-pnpm add coss-svelte bits-ui
+npx skills@latest add johannhipp/skills --skill coss-svelte
 ```
 
-Import the COSS theme once in the app layout:
+Read [CLI and availability](./references/cli.md) before suggesting component-package or theme installation.
 
-```svelte
-<script>
-	import "@coss-svelte/theme/style-coss.css";
-</script>
-```
+## Final check
 
-For repository development and verification, read `./references/cli.md`.
-
-## High-risk primitives
-
-Read these references before editing related code:
-
-- `./references/primitives/dialog.md` - modal structure, footer actions, forms in dialogs
-- `./references/primitives/sheet.md` - side panel semantics and dialog-based composition
-- `./references/primitives/drawer.md` - experimental status and deferred parity gaps
-- `./references/primitives/select.md` - trigger/value/popup/viewport/item hierarchy
-- `./references/primitives/command.md` - command dialog and list composition
-- `./references/primitives/form.md` - field semantics and optional validation adapters
-- `./references/primitives/sidebar.md` - experimental status and static shell limitations
-- `./references/primitives/toast.md` - experimental status and runtime behavior gaps
-
-## Output checklist
-
-Before returning code:
-
-- imports exist in `coss-svelte`
-- Svelte syntax is valid
-- component anatomy matches the primitive reference
-- accessibility labels and explicit control types are present
-- status caveats are mentioned for experimental/deferred components
-- styling uses coss-svelte theme tokens and existing variants rather than ad hoc one-off classes
+- Confirm every import exists in the current package.
+- Confirm every binding and callback appears in generated declarations.
+- Confirm scalar versus array value shapes match single versus multiple mode.
+- Confirm composed overlays contain their required trigger, popup, title/description, body, footer, and close/action parts.
+- Confirm forms keep submit controls inside the form and propagate invalid/required/disabled state through Field.
+- Confirm experimental and deferred caveats are explicit.
+- Confirm React particles were reimplemented, not copied.
