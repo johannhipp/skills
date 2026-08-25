@@ -50,6 +50,7 @@ import {
 
 - Use for editable text with suggestions; use Combobox when the result must be an option selection.
 - Pass `options` even in custom composition so Bits UI knows the item set; scalar and array value shapes follow `type`.
+- Convenience mode filters supplied option labels case-insensitively as the user types, resets the query when the popup closes, and keeps the collection synchronized with visible items.
 - Bindable contract: `bind:value`, `bind:open`; optional `onValueChange`.
 
 ## Anatomy

@@ -39,7 +39,7 @@ import {
 ## Key contracts
 
 - Always provide an accessible label. Single mode uses a number; multiple/range mode uses a number array.
-- The root renders range/ticks/thumbs automatically; custom children receive `thumbItems` and `tickItems` and must render indexed parts.
+- The root renders the range and thumbs automatically. It does not render implicit ticks; add `SliderTick`/`SliderTickLabel` only in custom children, using the supplied `thumbItems` and `tickItems` indices.
 - Bindable contract: `bind:value`; optional `onValueChange`.
 
 ## Anatomy

@@ -69,6 +69,7 @@ import {
 
 - Use `items` only for simple flat menus; custom menus require MenuTrigger + MenuPopup.
 - Pair MenuSubTrigger with MenuSubPopup inside MenuSub, and use checkbox/radio parts for persistent choices.
+- `MenuCheckboxItem` supports the default indicator and `variant="switch"`; bind `checked`/`indeterminate` instead of recreating selection state in child markup.
 - Bindable contract: `bind:open`.
 
 ## Anatomy

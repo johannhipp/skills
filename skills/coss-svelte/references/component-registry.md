@@ -1,13 +1,14 @@
 # coss-svelte component registry
 
-Use this index to select a primitive, then read its guide before writing code. The current source has **54 components**: **50 stable**, **3 experimental**, and **1 deferred**.
+Use this index to select a primitive, then read its guide before writing code. The current source has **55 components**: **52 stable**, **3 experimental**, and **0 deferred**.
 
-Status is part of the API contract: do not import deferred components, and name experimental limitations in user-facing guidance.
+Status is part of the API contract: all current roots are importable, and experimental limitations belong in user-facing guidance.
 
 ## Overlays & Popups
 
 - [Alert Dialog](./primitives/alert-dialog.md) — A modal dialog that interrupts the user workflow for critical confirmations. (stable; bits)
 - [Command](./primitives/command.md) — A command palette component built with Dialog and Autocomplete for searching and executing commands. (stable; compound)
+- [Context Menu](./primitives/context-menu.md) — A pointer- and keyboard-accessible contextual action menu with checkbox, radio, link, and submenu parts. (stable; bits)
 - [Dialog](./primitives/dialog.md) — A modal overlay for displaying content that requires user interaction. (stable; bits)
 - [Menu](./primitives/menu.md) — A list of actions or options revealed on demand. (stable; compound)
 - [Popover](./primitives/popover.md) — A floating container that appears near a trigger element. (stable; bits)
@@ -28,7 +29,7 @@ Status is part of the API contract: do not import deferred components, and name 
 - [Select](./primitives/select.md) — A common form component for choosing a predefined value in a dropdown menu. (stable; bits)
 - [Slider](./primitives/slider.md) — A draggable control for selecting values from a continuous range. (stable; bits)
 - [Textarea](./primitives/textarea.md) — A multi-line text input for longer content. (stable; native)
-- [Number Field](./primitives/number-field.md) — A specialized input for numeric values with increment/decrement controls. (deferred; custom)
+- [Number Field](./primitives/number-field.md) — A locale-aware numeric input with step controls, scrubbing, form serialization, and change/commit callbacks. (stable; custom)
 
 ## Forms & Validation
 
@@ -76,7 +77,7 @@ Status is part of the API contract: do not import deferred components, and name 
 - [Progress](./primitives/progress.md) — A visual indicator showing the completion status of a task. (stable; bits)
 - [Skeleton](./primitives/skeleton.md) — A placeholder for loading content. (stable; native)
 - [Spinner](./primitives/spinner.md) — An indicator that can be used to show a loading state. (stable; native)
-- [Toast](./primitives/toast.md) — An experimental local notification surface with bindable visibility, not a queue or manager API. (experimental; custom)
+- [Toast](./primitives/toast.md) — An experimental notification surface with local `ToastProvider` and `toastManager` queue APIs. (experimental; custom)
 
 ## Actions
 

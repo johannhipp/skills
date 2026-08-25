@@ -1,6 +1,6 @@
 # Upstream COSS pattern index for Svelte ports
 
-Use this reference when a coss-svelte task needs a production-like UI pattern, not just a primitive. It indexes **484 COSS React particles across 52 component types** so an agent can discover behavior and visual intent by description.
+Use this reference when a coss-svelte task needs a production-like UI pattern, not just a primitive. It indexes **492 COSS React particles across 53 component types** so an agent can discover behavior and visual intent by description.
 
 ## Porting workflow
 
@@ -15,7 +15,7 @@ Use this reference when a coss-svelte task needs a production-like UI pattern, n
 - These URLs return React/TSX COSS particles. They are **not** installable coss-svelte particle manifests.
 - Never paste React source, Base UI imports, hooks, `className`, `render`, or `asChild` into Svelte.
 - The local coss-svelte registry contains component manifests at `apps/registry/static/r/<slug>.json`, not the `p-<slug>-<n>` particle corpus.
-- If a candidate uses NumberField, Toast managers, swipe drawers, or another missing parity feature, adapt the interaction to the current status boundary instead of fabricating an API.
+- If a candidate uses anchored toast managers, swipe drawers, or another missing parity feature, adapt the interaction to the current status boundary instead of fabricating an API.
 
 ## Upstream JSON URL
 
@@ -40,6 +40,7 @@ For example, replace `<particle-name>` with `p-dialog-1`.
 - [collapsible](#collapsible) (1)
 - [combobox](#combobox) (18)
 - [command](#command) (2)
+- [context-menu](#context-menu) (8)
 - [date-picker](#date-picker) (9)
 - [dialog](#dialog) (6)
 - [drawer](#drawer) (14)
@@ -299,6 +300,17 @@ For example, replace `<particle-name>` with `p-dialog-1`.
 
 - Command palette with dialog | [JSON](https://coss.com/ui/r/p-command-1.json)
 - Command palette with AI assistant | [JSON](https://coss.com/ui/r/p-command-2.json)
+
+### context-menu
+
+- Basic pointer menu | [JSON](https://coss.com/ui/r/p-context-menu-1.json)
+- Link and navigation items | [JSON](https://coss.com/ui/r/p-context-menu-2.json)
+- Nested submenu | [JSON](https://coss.com/ui/r/p-context-menu-3.json)
+- Checkbox items | [JSON](https://coss.com/ui/r/p-context-menu-4.json)
+- Grouped sections with labels | [JSON](https://coss.com/ui/r/p-context-menu-5.json)
+- Icons, shortcuts, and destructive actions | [JSON](https://coss.com/ui/r/p-context-menu-6.json)
+- Radio group | [JSON](https://coss.com/ui/r/p-context-menu-7.json)
+- Switch-style checkbox items | [JSON](https://coss.com/ui/r/p-context-menu-8.json)
 
 ### date-picker
 

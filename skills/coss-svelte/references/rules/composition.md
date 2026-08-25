@@ -7,7 +7,7 @@ Use one mode deliberately:
 - **Convenience mode:** pass root data props such as `items`, `options`, `tabs`, `trigger`, `title`, or `description` and let the component render its fallback anatomy.
 - **Composed mode:** provide exported child parts for custom content and layout.
 
-For Menu, Select, Combobox, Autocomplete, Command, Popover, PreviewCard, and Tooltip, custom children replace the built-in fallback content.
+For Menu, Select, Combobox, Autocomplete, Command, Popover, PreviewCard, and Tooltip, custom children replace the built-in fallback content. ContextMenu is composed-only and always requires a trigger and popup.
 
 For Dialog, AlertDialog, Sheet, and Drawer, root `title` or `description` activates a convenience scaffold. Omit those root props when composing Trigger/Popup/Title/Description parts yourself.
 
@@ -34,8 +34,9 @@ Preserve this shape when the parts exist:
 - Keep popup parts inside their root so Bits UI context exists.
 - Keep Dialog/AlertDialog titles and descriptions inside the popup.
 - Keep MenuSubTrigger and MenuSubPopup inside MenuSub.
+- Keep ContextMenuSubTrigger and ContextMenuSubPopup inside ContextMenuSub; preserve the root trigger's Shift+F10 and Context Menu key access.
 - Keep Select/Combobox collection items inside the documented popup/list/viewport structure.
-- Do not add a second portal or overlay around composed `*Popup` wrappers; those wrappers already portal their content where implemented.
+- Do not add a second portal or overlay around composed `*Popup` wrappers; those wrappers already portal their content where implemented. Configure the owned portal through documented `portalProps`.
 
 ## Use Svelte state contracts
 
@@ -47,9 +48,9 @@ Preserve this shape when the parts exist:
 
 ## Use providers where they exist
 
-- Wrap related tooltips with TooltipProvider.
+- Tooltip roots establish their required provider in convenience and composed modes. The exported TooltipProvider is available for direct provider composition; do not redundantly wrap every Tooltip.
 - Wrap interactive/collapsible Sidebar layouts with SidebarProvider.
-- Do not invent ToastProvider or toast managers; the current Toast is an experimental local component.
+- Mount ToastProvider before using the shared `toastManager`; direct `Toast bind:open` remains available for one local status surface.
 
 ## Avoid cross-ecosystem composition
 

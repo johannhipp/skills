@@ -30,20 +30,18 @@ import {
 
 ```svelte
 <script lang="ts">
-	import { Tooltip, TooltipPopup, TooltipProvider, TooltipTrigger } from "coss-svelte";
+	import { Tooltip, TooltipPopup, TooltipTrigger } from "coss-svelte";
 </script>
 
-<TooltipProvider>
-	<Tooltip>
-		<TooltipTrigger>Hover me</TooltipTrigger>
-		<TooltipPopup>Helpful hint</TooltipPopup>
-	</Tooltip>
-</TooltipProvider>
+<Tooltip>
+	<TooltipTrigger>Hover me</TooltipTrigger>
+	<TooltipPopup>Helpful hint</TooltipPopup>
+</Tooltip>
 ```
 
 ## Key contracts
 
-- Wrap tooltip groups in TooltipProvider. Keep tooltip content brief and non-interactive; custom composition requires TooltipTrigger + TooltipPopup.
+- Tooltip establishes the Bits UI provider required by both convenience and custom modes. Keep tooltip content brief and non-interactive; custom composition requires TooltipTrigger + TooltipPopup. `TooltipProvider` remains exported for direct provider composition, but wrapping each Tooltip in another provider is unnecessary.
 
 ## Anatomy
 
