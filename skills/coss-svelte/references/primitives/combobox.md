@@ -55,6 +55,7 @@ import {
 
 - Use for searchable option selection; use Select when search is unnecessary and Autocomplete for editable free text.
 - Pass `options` to establish the item collection; scalar and array values follow `type`.
+- Convenience mode filters supplied option labels case-insensitively as the user types, resets the query when the popup closes, and keeps keyboard highlight constrained to visible items.
 - Bindable contract: `bind:value`, `bind:open`; optional `onValueChange`.
 
 ## Anatomy

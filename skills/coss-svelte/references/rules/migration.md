@@ -26,9 +26,10 @@ Check declarations before applying any mapping; not every wrapper exposes every 
 - **Select:** pass `options` so the root has an item collection; use string/string-array values for single/multiple modes.
 - **Autocomplete/Combobox:** preserve popup/list/collection/item structure in custom mode and keep the distinction between editable suggestions and constrained selection.
 - **Dialog/Sheet/Drawer:** do not pass root title/description while also composing title/description parts; keep form panels and footers inside the form.
-- **Toast:** replace COSS `toastManager`, anchored managers, or Sonner APIs with the current experimental local Toast only when that reduced behavior is acceptable.
+- **Context Menu:** preserve right-click plus Shift+F10/Context Menu key access; use the dedicated item, link, checkbox, radio, and submenu parts.
+- **Toast:** use the local `ToastProvider` + `toastManager` only when its basic title/description queue is sufficient. Adapt anchored managers, actions, promise states, swipe gestures, and Sonner-specific APIs instead of fabricating parity.
 - **Drawer:** do not claim swipe, snap points, or nested drawer parity; the current implementation is Dialog-based.
-- **NumberField:** use a native numeric Input or project-local control; the coss-svelte component is deferred and not exported.
+- **NumberField:** use `number | null`, locale/format props, and its distinct change/commit callbacks. Do not port formatted input text as component state or silently substitute a native numeric Input.
 - **Textarea:** verify the installed declaration before translating a React controlled value to `bind:value`.
 
 ## Port particles

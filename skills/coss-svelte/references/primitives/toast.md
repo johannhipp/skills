@@ -1,6 +1,6 @@
 # Toast
 
-An experimental local notification surface with bindable visibility, not a queue or manager API.
+An experimental notification surface with a local provider and queue manager.
 
 > Experimental: verify the installed source before relying on production parity.
 
@@ -15,39 +15,54 @@ An experimental local notification surface with bindable visibility, not a queue
 
 ## Avoid when
 
-- Do not use when the message must persist or interrupt the workflow.
+- Use Alert for persistent in-page feedback and AlertDialog for a blocking confirmation.
 
 ## Public imports
 
 ```ts
-import { Toast } from "coss-svelte";
+import { Toast, ToastProvider, toastManager } from "coss-svelte";
 ```
 
 ## Canonical Svelte pattern
 
 ```svelte
 <script lang="ts">
-	import { Button, Toast } from "coss-svelte";
-
-	let open = $state(false);
+	import { Button, ToastProvider, toastManager } from "coss-svelte";
 </script>
 
-<Button type="button" variant="outline" onclick={() => (open = true)}>Show toast</Button>
-<Toast bind:open title="Saved" description="Your changes are up to date." />
+<ToastProvider>
+	<Button
+		type="button"
+		variant="outline"
+		onclick={() =>
+			toastManager.add({
+				title: "Event created",
+				description: "Monday at 6:00 PM",
+			})}
+	>
+		Show toast
+	</Button>
+</ToastProvider>
 ```
 
 ## Key contracts
 
-- Experimental: this is a local bindable status surface, not COSS React `toastManager`, Sonner, or a provider/queue system.
-- Bind `open` for visibility and use Alert for persistent feedback or AlertDialog for blocking confirmation.
-- Bindable contract: `bind:open`.
+- Mount one `ToastProvider` around the subtree that triggers managed notifications. It subscribes to the shared manager and renders the notification viewport.
+- `toastManager.add({ title, description?, duration?, dismissible?, id? })` returns the resolved ID. Reusing an ID replaces the previous entry; `toastManager.close(id)` removes it.
+- The default duration is 5000 ms. Use `duration: 0` for a toast that remains until explicitly closed.
+- `Toast` remains directly usable as a local status surface with `bind:open`, `title`, `description`, `dismissible`, and `ondismiss`.
+- This is not full upstream COSS parity: there are no anchored managers, actions, promise states, swipe gestures, placement variants, or Sonner API.
 
 ## Anatomy
 
 - `Toast`
+- `ToastProvider`
+- `toastManager`
 
 ## Common pitfalls
 
+- Do not call `toastManager.add` without mounting a provider in the rendered application.
+- Do not create a second application-specific queue around `toastManager` unless the missing behavior genuinely requires it.
 - Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
 - Do not invent parts or bindings absent from the package declarations.
 - Do not treat the upstream particle count as installable Svelte particle manifests.

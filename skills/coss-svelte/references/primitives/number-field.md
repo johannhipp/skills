@@ -1,12 +1,10 @@
 # Number Field
 
-A specialized input for numeric values with increment/decrement controls.
-
-> Deferred: this is not an importable component in the current package.
+A locale-aware numeric input with increment/decrement controls, optional pointer scrubbing, and native form integration.
 
 ## Status and source
 
-- Status: deferred
+- Status: stable
 - Foundation: custom
 - Category: Selection & Input
 - Local docs route: `/docs/components/number-field.md` when the coss-svelte docs app is running
@@ -16,23 +14,58 @@ A specialized input for numeric values with increment/decrement controls.
 ## Public imports
 
 ```ts
-// No public import exists in the current package.
+import {
+	NumberField,
+	NumberFieldDecrement,
+	NumberFieldGroup,
+	NumberFieldIncrement,
+	NumberFieldInput,
+	NumberFieldScrubArea,
+} from "coss-svelte";
 ```
 
-## Current implementation
+## Canonical Svelte pattern
 
-Do not import or generate this component as available. Use the fallback described below and re-check package exports before changing that guidance.
+```svelte
+<script lang="ts">
+	import { NumberField } from "coss-svelte";
+
+	let amount = $state<number | null>(0);
+</script>
+
+<NumberField
+	bind:value={amount}
+	label="Amount"
+	name="amount"
+	min={0}
+	step={1}
+	onValueCommit={(value, details) => console.log(value, details.reason)}
+/>
+```
 
 ## Key contracts
 
-- Deferred: `NumberField` is metadata only and is not exported. Use Input with `type="number"` or a project-local control until the status changes.
+- `bind:value` is `number | null`. Values must be finite; do not send numeric strings, `NaN`, or infinities.
+- `defaultValue` is the captured native form-reset baseline. `name` serializes an invariant numeric value through the component's hidden form control; `form` can associate it with an external form.
+- Text editing is parsed and formatted with `locale` and `Intl.NumberFormatOptions`. Direct text is not snapped to `step`; buttons, keys, wheel, and scrubbing use the configured step sizes.
+- `onValueChange` runs for each accepted value change. `onValueCommit` runs once when the input, keyboard, button, wheel, scrub, or reset transaction commits; use it for persistence or expensive effects.
+- `smallStep` is used by Alt+Arrow and `largeStep` by Shift+Arrow/PageUp/PageDown. Wheel changes are opt-in through `allowWheelScrub`.
+- Convenience mode renders the scrub label, group, decrement button, input, and increment button. Custom children replace that fallback and must retain a labelled `NumberFieldInput` inside `NumberFieldGroup`.
+- An enclosing Field label supplies the accessible name when root `label` is omitted. Custom `NumberFieldScrubArea` requires a non-empty `label` even when its visual children are replaced.
 
 ## Anatomy
 
-- No exported anatomy while deferred.
+- `NumberField`
+- `NumberFieldDecrement`
+- `NumberFieldGroup`
+- `NumberFieldIncrement`
+- `NumberFieldInput`
+- `NumberFieldScrubArea`
 
 ## Common pitfalls
 
+- Do not treat the visible locale-formatted text as the submitted value or application state.
+- Do not persist on every key repeat when `onValueCommit` matches the intended transaction boundary.
 - Do not copy React/JSX, Base UI, Radix, shadcn, `asChild`, `render`, `className`, or `onClick` patterns into Svelte.
 - Do not invent parts or bindings absent from the package declarations.
 - Do not treat the upstream particle count as installable Svelte particle manifests.

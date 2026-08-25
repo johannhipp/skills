@@ -1,6 +1,6 @@
 ---
 name: coss-svelte
-description: Implement and troubleshoot coss-svelte interfaces in Svelte 5 or SvelteKit. Use when selecting coss-svelte components, composing Bits UI-backed dialogs, menus, selects, comboboxes, forms, tabs, inputs, or feedback surfaces, adapting COSS React particles or shadcn/Radix code to Svelte, or verifying imports, bindings, status, registry artifacts, theme setup, accessibility, and install availability.
+description: Implement and troubleshoot coss-svelte interfaces in Svelte 5 or SvelteKit. Use when selecting coss-svelte components, composing Bits UI-backed overlays, context menus, selects, comboboxes, forms, number fields, tabs, or toast feedback, adapting COSS React particles or shadcn/Radix code to Svelte, or verifying imports, bindings, status, registry artifacts, theme setup, accessibility, and install availability.
 ---
 
 # coss-svelte
@@ -11,13 +11,18 @@ Implement COSS-shaped product UI with Svelte 5 components, Bits UI behavior, and
 
 Resolve disagreements in this order:
 
-1. `packages/coss-svelte/src/index.js` and generated `dist/index.d.ts` for public exports.
-2. Generated component declarations and `src/components/*.svelte` for props, bindings, snippets, and behavior.
-3. `packages/coss-svelte/src/metadata.js` for status, foundation, parts, and upstream particle counts.
-4. `apps/registry/static/r/*.json` for copy-and-own file closure and dependencies.
-5. The docs app and `/docs/components/<slug>.md` routes for discovery, not as a substitute for declarations.
+1. The consumer's installed `coss-svelte` declarations for the version actually in use.
+2. `packages/coss-svelte/src/index.js` and generated `dist/index.d.ts` for current public exports.
+3. Generated component declarations and `src/components/*.svelte` for props, bindings, snippets, and behavior.
+4. `/docs/components/<slug>.md` for the current example plus generated API tables.
+5. `packages/coss-svelte/src/metadata.js` for status, foundation, parts, and upstream particle counts.
+6. `apps/registry/static/r/*.json` for copy-and-own file closure and dependencies.
 
 Use <https://github.com/johannhipp/coss-svelte> when the source repository is not local. Treat <https://coss.com/ui/> and its particles as React design references only.
+
+## Current surface
+
+The maintained source catalog has 55 roots: 52 stable, 3 experimental, and no deferred roots. Drawer, Sidebar, and Toast are experimental. ContextMenu and NumberField are stable and publicly exported.
 
 ## Apply the component model
 
@@ -26,14 +31,16 @@ Use <https://github.com/johannhipp/coss-svelte> when the source repository is no
 - Read the primitive guide before mixing the two modes. Children replace fallback markup for many roots; `Dialog`, `AlertDialog`, `Sheet`, and `Drawer` instead activate convenience scaffolds when root `title` or `description` is set.
 - Use Svelte 5 syntax: `class`, lowercase property events such as `onclick`/`onsubmit`, `$state`, snippets, and documented `bind:*` contracts.
 - Use callback props such as `onValueChange` only where declarations expose them.
+- Autocomplete and Combobox convenience mode filter their supplied options as the user types. Keep the filtered item collection synchronized when composing their parts manually.
 
 ## Critical rules
 
 - Import only names exported by `coss-svelte`. Never invent parity APIs.
 - Never use React/JSX, hooks, `className`, `onClick`, Base UI, Radix `asChild`, or COSS `render` composition in Svelte output.
-- Never import `NumberField` while metadata marks it deferred; it is not exported.
-- Mark Drawer, Sidebar, and Toast as experimental and describe their current limitations.
-- Do not describe the upstream count of 484 COSS particles as installable Svelte particles. Use [the pattern index](./references/particles.md) to discover intent, then port it.
+- Mark Drawer, Sidebar, and Toast as experimental and describe their current limitations. Toast does expose `ToastProvider` and `toastManager`, but it is still a small local queue rather than full upstream parity.
+- ContextMenu must preserve both pointer opening and Shift+F10/Context Menu key access. Keep nested popup parts within their matching root/sub-root.
+- NumberField values are `number | null`; preserve locale-aware editing, finite-value validation, native form serialization/reset, and the distinction between `onValueChange` and `onValueCommit`.
+- Do not describe the upstream count of 492 COSS particles as installable Svelte particles. Use [the pattern index](./references/particles.md) to discover intent, then port it.
 - Preserve labels, dialog titles/descriptions, roles, focus behavior, keyboard behavior, error semantics, and explicit button/input types.
 - Verify package availability before giving external install commands. The source baseline may be ahead of npm and the theme package may still be workspace-only.
 
@@ -50,20 +57,21 @@ Use <https://github.com/johannhipp/coss-svelte> when the source repository is no
 ## Reference routing
 
 - [CLI and availability](./references/cli.md) — skill install, package/registry availability, monorepo checks
-- [Component registry](./references/component-registry.md) — all 54 components grouped by purpose and status
+- [Component registry](./references/component-registry.md) — all 55 components grouped by purpose and status
 - [Composition](./references/rules/composition.md) — convenience vs composed roots, overlays, bindings, snippets, providers
 - [Forms](./references/rules/forms.md) — Field context, native Form behavior, validation, input bindings
 - [Styling](./references/rules/styling.md) — theme availability, tokens, variants, `cn-*`, Tailwind CSS 4
 - [Migration](./references/rules/migration.md) — React COSS/Base UI/shadcn/Radix/particle conversion
-- [Particle patterns](./references/particles.md) — 484 searchable upstream pattern descriptions with strict porting boundaries
+- [Particle patterns](./references/particles.md) — 492 searchable upstream pattern descriptions with strict porting boundaries
 
 ## Read these guides first for risky work
 
 - [Dialog](./references/primitives/dialog.md), [Alert Dialog](./references/primitives/alert-dialog.md), [Sheet](./references/primitives/sheet.md), and [Drawer](./references/primitives/drawer.md) for modal structure and form placement
-- [Menu](./references/primitives/menu.md), [Select](./references/primitives/select.md), [Combobox](./references/primitives/combobox.md), and [Autocomplete](./references/primitives/autocomplete.md) for collection and popup contracts
+- [Menu](./references/primitives/menu.md), [Context Menu](./references/primitives/context-menu.md), [Select](./references/primitives/select.md), [Combobox](./references/primitives/combobox.md), and [Autocomplete](./references/primitives/autocomplete.md) for collection and popup contracts
 - [Field](./references/primitives/field.md), [Form](./references/primitives/form.md), and [Input Group](./references/primitives/input-group.md) for accessible form wiring
+- [Number Field](./references/primitives/number-field.md) for locale-aware numeric editing, step behavior, form serialization, and commit callbacks
 - [Command](./references/primitives/command.md) for command-dialog anatomy
-- [Sidebar](./references/primitives/sidebar.md) and [Toast](./references/primitives/toast.md) for experimental boundaries
+- [Sidebar](./references/primitives/sidebar.md), [Drawer](./references/primitives/drawer.md), and [Toast](./references/primitives/toast.md) for experimental boundaries
 
 ## Installation
 
@@ -82,5 +90,5 @@ Read [CLI and availability](./references/cli.md) before suggesting component-pac
 - Confirm scalar versus array value shapes match single versus multiple mode.
 - Confirm composed overlays contain their required trigger, popup, title/description, body, footer, and close/action parts.
 - Confirm forms keep submit controls inside the form and propagate invalid/required/disabled state through Field.
-- Confirm experimental and deferred caveats are explicit.
+- Confirm experimental caveats are explicit and do not describe any current root as deferred.
 - Confirm React particles were reimplemented, not copied.
