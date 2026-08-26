@@ -42,7 +42,7 @@ The maintained source catalog has 55 roots: 52 stable, 3 experimental, and no de
 - NumberField values are `number | null`; preserve locale-aware editing, finite-value validation, native form serialization/reset, and the distinction between `onValueChange` and `onValueCommit`.
 - Do not describe the upstream count of 492 COSS particles as installable Svelte particles. Use [the pattern index](./references/particles.md) to discover intent, then port it.
 - Preserve labels, dialog titles/descriptions, roles, focus behavior, keyboard behavior, error semantics, and explicit button/input types.
-- Verify package availability before giving external install commands. The source baseline may be ahead of npm and the theme package may still be workspace-only.
+- For a new external consumer, use `pnpm add coss-svelte @coss-svelte/theme bits-ui` and import the theme after Tailwind CSS 4. Keep installed declarations authoritative when the source repository is ahead of the consumer's package version.
 
 ## Workflow
 
@@ -52,15 +52,15 @@ The maintained source catalog has 55 roots: 52 stable, 3 experimental, and no de
 4. Read the relevant rule guide for composition, forms, styling, or migration.
 5. For production-like patterns, search [the upstream particle index](./references/particles.md), then translate it through current Svelte exports.
 6. Implement the minimal accessible Svelte pattern.
-7. Check imports, status, value shapes, bindings, and source availability before returning code.
+7. Check imports, status, value shapes, bindings, and the installed package version before returning code.
 
 ## Reference routing
 
-- [CLI and availability](./references/cli.md) — skill install, package/registry availability, monorepo checks
+- [CLI and installation](./references/cli.md) — skill install, package and preview-registry setup, monorepo checks
 - [Component registry](./references/component-registry.md) — all 55 components grouped by purpose and status
 - [Composition](./references/rules/composition.md) — convenience vs composed roots, overlays, bindings, snippets, providers
 - [Forms](./references/rules/forms.md) — Field context, native Form behavior, validation, input bindings
-- [Styling](./references/rules/styling.md) — theme availability, tokens, variants, `cn-*`, Tailwind CSS 4
+- [Styling](./references/rules/styling.md) — theme setup, tokens, variants, `cn-*`, Tailwind CSS 4
 - [Migration](./references/rules/migration.md) — React COSS/Base UI/shadcn/Radix/particle conversion
 - [Particle patterns](./references/particles.md) — 492 searchable upstream pattern descriptions with strict porting boundaries
 
@@ -81,7 +81,7 @@ Install this agent skill with:
 npx skills@latest add johannhipp/skills --skill coss-svelte
 ```
 
-Read [CLI and availability](./references/cli.md) before suggesting component-package or theme installation.
+Read [CLI and installation](./references/cli.md) before suggesting component-package, theme, or preview-registry installation.
 
 ## Final check
 

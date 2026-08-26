@@ -1,12 +1,15 @@
 # Styling rules
 
-## Verify theme availability
+## Install the theme
 
-The monorepo theme entry is `@coss-svelte/theme/style-coss.css`, but do not recommend it to an external consumer until `npm view @coss-svelte/theme version` succeeds or the project already provides the workspace package.
+Install `@coss-svelte/theme` at the same `0.1.x` version as `coss-svelte`. Import Tailwind CSS 4 before the public theme entry in the application's global stylesheet:
 
-When the theme is available:
+```css
+@import "tailwindcss";
+@import "@coss-svelte/theme/style-coss.css";
+```
 
-- Import it once at the application layout/root.
+- Load that stylesheet once from the application layout/root.
 - Keep Tailwind CSS 4 source scanning compatible with copied or installed Svelte component files.
 - Preserve semantic variables for background, foreground, border, primary, muted, destructive, info, success, warning, sidebar, radius, typography, and motion.
 
